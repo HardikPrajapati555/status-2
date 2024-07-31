@@ -48,7 +48,7 @@ wss.on('connection', (ws) => {
 });
 
 // Start the HTTP server on port 3000 and bind to all available IP addresses
-const PORT = 3000;
+const PORT = 8080;
 const IP_ADDRESS = '0.0.0.0'; // Bind to all available IP addresses
 
 server.listen(PORT, IP_ADDRESS, () => {
