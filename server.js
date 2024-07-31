@@ -21,6 +21,7 @@ app.get('/video3.html', (req, res) => res.sendFile(path.join(__dirname, 'public/
 // WebSocket server logic
 wss.on('connection', (ws) => {
     console.log('Client connected');
+    
 
     ws.on('message', (message) => {
         if (Buffer.isBuffer(message)) {

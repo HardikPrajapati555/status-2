@@ -3,12 +3,14 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video 2 Playback</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body style="background-color: #f0f0f0;">
     <div class="div1">
         <video id="videoPlayer2" style="max-width: 33%;" controls>
@@ -21,7 +23,7 @@
         let socket;
 
         function connectWebSocket() {
-            socket = new WebSocket('wss://stutass.onrender.com');
+            socket = new WebSocket('https://status-2-uwrq.onrender.com/8080');
 
             socket.onopen = () => {
                 console.log('Connected to the server');
@@ -67,4 +69,5 @@
         });
     </script>
 </body>
+
 </html>
