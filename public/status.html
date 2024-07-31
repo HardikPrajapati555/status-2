@@ -1,0 +1,152 @@
+<!-- status.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Status</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.div1 {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    width: 80%;
+    max-width: 600px;
+}
+
+h1 {
+    margin: 10px 0;
+    color: #333333;
+}
+
+button {
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 10px;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+button:active {
+    background-color: #004085;
+}
+
+    </style>
+</head>
+<body>
+    <div class="div1">
+        <h1>WebSocket Connection Status</h1>
+        <h1 id="status1"> 1 Status: Connecting...</h1>
+        <h1 id="status2"> 2 Status: Connecting...</h1>
+        <h1 id="status3"> 3 Status: Connecting...</h1>
+        <button id="showVideo1Button">Go to Video 1</button>
+        <button id="showVideo2Button">Go to Video 2</button>
+        <button id="showVideo3Button">Go to Video 3</button>
+    </div>
+
+    <script>
+        let socket;
+        const statusElement1 = document.getElementById('status1');
+        const statusElement2 = document.getElementById('status2');
+        const statusElement3 = document.getElementById('status3');
+
+        document.getElementById('showVideo1Button').addEventListener('click', () => {
+            window.location.href = 'video1.html';
+        });
+
+        document.getElementById('showVideo2Button').addEventListener('click', () => {
+            window.location.href = 'video2.html';
+        });
+
+        document.getElementById('showVideo3Button').addEventListener('click', () => {
+            window.location.href = 'video3.html';
+        });
+
+        function connectWebSocket() {
+            socket = new WebSocket('wss://stutass.onrender.com');
+
+            socket.onopen = () => {
+                console.log('Connected to the server');
+                updateStatus('Connecting...');
+            };
+
+            socket.onmessage = (event) => {
+                console.log('Message from server:', event.data);
+                const [username, status] = event.data.split(':');
+                if (status.includes('Video1')) {
+                    updateStatus1(status);
+                } else if (status.includes('Video2')) {
+                    updateStatus2(status);
+                } else if (status.includes('Video3')) {
+                    updateStatus3(status);
+                }
+            };
+
+            socket.onclose = () => {
+                console.log('Disconnected from the server');
+                updateStatus('Offline');
+                setTimeout(connectWebSocket, 5000);
+            };
+
+            socket.onerror = (error) => {
+                console.error('WebSocket error:', error);
+                updateStatus('Error');
+                setTimeout(connectWebSocket, 5000);
+            };
+        }
+
+        function updateStatus1(status) {
+            if (statusElement1) {
+                statusElement1.textContent = ` 1 Status: ${status}`;
+            }
+        }
+
+        function updateStatus2(status) {
+            if (statusElement2) {
+                statusElement2.textContent = ` 2 Status: ${status}`;
+            }
+        }
+
+        function updateStatus3(status) {
+            if (statusElement3) {
+                statusElement3.textContent = ` 3 Status: ${status}`;
+            }
+        }
+
+        function updateStatus(status) {
+            if (statusElement1 && statusElement2 && statusElement3) {
+                statusElement1.textContent = ` 1 Status: ${status}`;
+                statusElement2.textContent = ` 2 Status: ${status}`;
+                statusElement3.textContent = ` 3 Status: ${status}`;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', connectWebSocket);
+    </script>
+</body>
+</html>

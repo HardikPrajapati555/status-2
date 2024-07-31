@@ -1,0 +1,17 @@
+.div1 {
+    text-align: center;
+    margin-top: 50px;
+}
+
+#status {
+    color: red;
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+
+video {
+    max-width: 33%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
